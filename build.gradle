@@ -2,9 +2,13 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath "io.franzbecker:gradle-lombok:$gradleLombokVersion"
     }
 }
 
@@ -12,6 +16,10 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "io.franzbecker.gradle-lombok"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 test {
     useJUnitPlatform()
@@ -28,7 +36,11 @@ bootJar {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+    compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 
+    compileOnly('org.projectlombok:lombok')
+    
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile "org.mockito:mockito-core:2.23.0"
     testCompile "org.assertj:assertj-core:3.11.1"
